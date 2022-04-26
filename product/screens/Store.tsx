@@ -55,7 +55,7 @@ const StoreScreen: React.FC<Props> = ({products}) => {
   return (
   
     <>
-    <AnimateSharedLayout type="crossfade">  
+ 
    
       <Stack spacing={6}>
         {products.length ? (
@@ -118,7 +118,7 @@ const StoreScreen: React.FC<Props> = ({products}) => {
         onIncrement={handleIncrementCartItem}
       />
      
-        </AnimateSharedLayout >
+    
     </>
   
   );

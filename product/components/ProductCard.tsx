@@ -8,6 +8,7 @@ import {CartItem} from "../../cart/types";
 import {Product} from "../types";
 import CartItemDrawer from "../../cart/components/CartItemDrawer";
 
+
 interface Props {
   product: Product;
   onAdd: (product: Product) => void;
@@ -15,8 +16,11 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({product, onAdd}) => {
   const [selectedImage ,setSelectedImage] = React.useState<string>(null);
-  const [isModalOpen, toggleModal] = React.useState(false);
+  const [isModalOpen, toggleModal ] = React.useState(false);
   const cartItem = React.useMemo<CartItem>(() => ({...product, quantity: 1}), [product]);
+
+
+
 
   return (
     <>
@@ -47,7 +51,8 @@ const ProductCard: React.FC<Props> = ({product, onAdd}) => {
             objectFit="contain"
             src={product.image}
             width={{base: 24, sm: 36}}
-            onClick={() => setSelectedImage(product.image) }
+            
+            onClick={() =>  setSelectedImage(product.image) }
           />
             <AnimatePresence >
           {selectedImage && <Flex  
@@ -56,14 +61,19 @@ const ProductCard: React.FC<Props> = ({product, onAdd}) => {
           backgroundColor="rgba(0,0,0,0.5)"
           justifyContent="center"
           position="fixed"
+          layoutId={selectedImage}
           top={0}
           left={0}
-          height="100%"
-          width="100%"
+          height="85%"
+          width="80%"
+         
+          objectFit='cover'
+       
+          
           onClick={()=> setSelectedImage(null) }
           >
 
-              <Image key="image" src={selectedImage} />
+              <Image   key="image" src={selectedImage} />
           </Flex> }
 
       </AnimatePresence>
@@ -78,12 +88,20 @@ const ProductCard: React.FC<Props> = ({product, onAdd}) => {
               <Text color="brand" fontSize="sm" fontWeight="500">
                 {parseCurrency(product.price)}
               </Text>
+      
+  )         
+            { selectedImage==(null)  && 
+            
               <Button
+              
                 size="xs"
-                onClick={() => (product.options ? toggleModal(true) : onAdd(cartItem))}
+         
+                 onClick={() => (product.options ? toggleModal(true) : onAdd(cartItem))}
               >
                 Agregar
-              </Button>
+              </Button> 
+ }
+
             </Stack>
           </Stack>
         </Stack>
