@@ -1,5 +1,7 @@
 import React from "react";
-import {Stack, Button, Text, Image} from "@chakra-ui/react";
+import {Stack, Button, Text, Image, Flex} from "@chakra-ui/react";
+import {motion, AnimatePresence, AnimateSharedLayout} from "framer-motion";
+
 
 import {parseCurrency} from "../../utils/currency";
 import {CartItem} from "../../cart/types";
@@ -12,11 +14,15 @@ interface Props {
 }
 
 const ProductCard: React.FC<Props> = ({product, onAdd}) => {
+  const [selectedImage ,setSelectedImage] = React.useState<string>(null);
   const [isModalOpen, toggleModal] = React.useState(false);
   const cartItem = React.useMemo<CartItem>(() => ({...product, quantity: 1}), [product]);
 
   return (
     <>
+ 
+    <AnimateSharedLayout type="crossfade">
+  
       <Stack
         key={product.id}
         alignItems="center"
@@ -30,15 +36,37 @@ const ProductCard: React.FC<Props> = ({product, onAdd}) => {
       >
         <Stack direction="row" padding={2} spacing={4} width="100%">
           <Image
+          as={motion.img}
             backgroundColor="white"
             borderRadius="md"
+            cursor="pointer"
+            layoutId={product.image}
             height={{base: 24, sm: 36}}
             loading="lazy"
             minWidth={{base: 24, sm: 36}}
             objectFit="contain"
             src={product.image}
             width={{base: 24, sm: 36}}
+            onClick={() => setSelectedImage(product.image) }
           />
+            <AnimatePresence >
+          {selectedImage && <Flex  
+          key="backdrop" alignItems="left" 
+          as={motion.div} 
+          backgroundColor="rgba(0,0,0,0.5)"
+          justifyContent="center"
+          position="fixed"
+          top={0}
+          left={0}
+          height="100%"
+          width="100%"
+          onClick={()=> setSelectedImage(null) }
+          >
+
+              <Image key="image" src={selectedImage} />
+          </Flex> }
+
+      </AnimatePresence>
           <Stack justifyContent="space-between" spacing={1} width="100%">
             <Stack spacing={1}>
               <Text fontWeight="500">{product.title}</Text>
@@ -71,7 +99,11 @@ const ProductCard: React.FC<Props> = ({product, onAdd}) => {
           }}
         />
       )}
+  
+  </AnimateSharedLayout>
+
     </>
+      
   );
 };
 

@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Button, Flex, Grid, Stack, Text} from "@chakra-ui/react";
+import {motion,AnimateSharedLayout,AnimatePresence} from "framer-motion";
 
 import type {CartItem} from "../../cart/types";
 import type {Product} from "../types";
@@ -52,7 +53,10 @@ const StoreScreen: React.FC<Props> = ({products}) => {
   }
 
   return (
+  
     <>
+    <AnimateSharedLayout type="crossfade">  
+   
       <Stack spacing={6}>
         {products.length ? (
           <Grid
@@ -113,7 +117,10 @@ const StoreScreen: React.FC<Props> = ({products}) => {
         onDecrement={handleDecrementCartItem}
         onIncrement={handleIncrementCartItem}
       />
+     
+        </AnimateSharedLayout >
     </>
+  
   );
 };
 
